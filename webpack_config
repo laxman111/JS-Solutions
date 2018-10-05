@@ -1,0 +1,70 @@
+npm install --save-dev webpack
+
+If you're using webpack v4 or later, you'll need to install the CLI.
+npm install --save-dev webpack-cli
+
+--------package.json
+"scripts": {
+      "build": "webpack"
+    },
+    
+    
+    
+To Load CSS
+npm install --save-dev style-loader css-loader
+ ---------webpack.config.js
+  const path = require('path');
+  module.exports = {
+    entry: './src/index.js',
+    output: {
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist')
+    },
++   module: {
++     rules: [
++       {
++         test: /\.css$/,
++         use: [
++           'style-loader',
++           'css-loader'
++         ]
++       }
++     ]
++   }
+  };
+
+
+
+HtmlWebpackPlugin by default will generate its own index.html file
+npm install --save-dev html-webpack-plugin
+
+Cleaning up the /dist folder
+npm install --save-dev clean-webpack-plugin
+
+ ---------webpack.config.js
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+      plugins: [
+      +     new CleanWebpackPlugin(['dist']),
+      +     new HtmlWebpackPlugin({
+      +       title: 'Output Management'
+      +     })
+      +   ],
+
+When webpack bundles your source code, it can become difficult to track down errors and warnings to their original location.
+For example, if you bundle three source files (a.js, b.js, and c.js) into one bundle (bundle.js) and one of the source files
+contains an error, the stack trace will simply point to bundle.js. This isn't always helpful as you probably want to know exactly which source file the error came from.
+
+
+
+
+webpack-dev-server provides you with a simple web server and the ability to use live reloading.
+npm install --save-dev webpack-dev-server
+--------package.json
++     "start": "webpack-dev-server --open",
+
+ ---------webpack.config.js
++   devtool: 'inline-source-map',
++   devServer: {
++     contentBase: './dist'
++   },
